@@ -35,6 +35,7 @@ import org.kie.workbench.common.screens.library.client.screens.organizationaluni
 import org.kie.workbench.common.screens.library.client.screens.organizationalunit.contributors.tab.ContributorsListPresenter;
 import org.kie.workbench.common.screens.library.client.screens.organizationalunit.delete.DeleteOrganizationalUnitPopUpPresenter;
 import org.kie.workbench.common.screens.library.client.util.LibraryPlaces;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.uberfire.mocks.CallerMock;
@@ -82,7 +83,6 @@ public class LibraryScreenTest {
 
     @Mock
     private LibraryService libraryService;
-    private Caller<LibraryService> libraryServiceCaller;
 
     @Mock
     private LibraryPlaces libraryPlaces;
@@ -96,11 +96,13 @@ public class LibraryScreenTest {
     @Mock
     private ImportRepositoryPopUpPresenter importRepositoryPopUpPresenter;
 
+    @Mock
+    private ProjectContext projectContext;
+
     private LibraryScreen libraryScreen;
 
     @Before
     public void setup() {
-        libraryServiceCaller = new CallerMock<>(libraryService);
 
         doReturn(importRepositoryPopUpPresenter).when(importRepositoryPopUpPresenters).get();
         doReturn(editContributorsPopUpPresenter).when(editContributorsPopUpPresenters).get();
@@ -141,6 +143,12 @@ public class LibraryScreenTest {
         verify(view).init(libraryScreen);
         verify(view).setTitle("name");
         verify(view).setContributorsCount(12);
+    }
+
+    private void refresh() {
+        final PlaceRequest placeRequest = mock(PlaceRequest.class);
+        doReturn(LibraryPlaces.LIBRARY_SCREEN).when(placeRequest).getIdentifier();
+        libraryScreen.refreshOnFocus(new PlaceGainFocusEvent(placeRequest));
     }
 
     @Test
