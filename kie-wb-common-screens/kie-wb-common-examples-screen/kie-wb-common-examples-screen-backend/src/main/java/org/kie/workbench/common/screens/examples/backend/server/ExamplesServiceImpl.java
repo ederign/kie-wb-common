@@ -249,7 +249,7 @@ public class ExamplesServiceImpl implements ExamplesService {
                 put("origin",
                     repositoryURL);
                 put(SCHEME,
-                    GitRepository.SCHEME);
+                    GitRepository.SCHEME.toString());
                 put("replaceIfExists",
                     true);
                 put(MIRROR,
@@ -266,6 +266,10 @@ public class ExamplesServiceImpl implements ExamplesService {
 
             repositoryConfig.addConfigItem(configurationFactory.newConfigItem(EnvironmentParameters.AVOID_INDEX,
                                                                               "true"));
+
+            //NEED TO DO THIS HERE, @paulo we should check this in order to delete this
+            repositoryConfig.addConfigItem(configurationFactory.newConfigItem(EnvironmentParameters.SPACE,
+                                                                              "system"));
 
             repository = repositoryFactory.newRepository(repositoryConfig);
             clonedRepositories.add(repository);

@@ -512,7 +512,8 @@ public class ExamplesServiceImplTest {
     }
 
     private GitRepository makeGitRepository() {
-        final GitRepository repository = new GitRepository("guvnorng-playground");
+        final GitRepository repository = new GitRepository("guvnorng-playground",
+                                                           "space");
 
         final HashMap<String, Branch> branches = new HashMap<>();
         branches.put("master",
