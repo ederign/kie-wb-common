@@ -237,11 +237,21 @@ public class ExamplesServiceImpl implements ExamplesService {
         if (exampleRepository.equals(playgroundRepository)) {
             return clonedRepositories.stream().filter(r -> exampleRepository.getUrl().equals(r.getEnvironment().get("origin"))).findFirst().orElseGet(() -> cloneRepository(exampleRepository.getUrl()));
         } else {
-            return cloneRepository(exampleRepository.getUrl());
+            return cloneRepository(exampleRepository.getUrl(),
+                                   exampleRepository.getUserName(),
+                                   exampleRepository.getPassword());
         }
     }
 
     private Repository cloneRepository(final String repositoryURL) {
+        return cloneRepository(repositoryURL,
+                               null,
+                               null);
+    }
+
+    private Repository cloneRepository(final String repositoryURL,
+                                       final String userName,
+                                       final String password) {
         Repository repository = null;
         try {
             final String alias = getExampleAlias(repositoryURL);
