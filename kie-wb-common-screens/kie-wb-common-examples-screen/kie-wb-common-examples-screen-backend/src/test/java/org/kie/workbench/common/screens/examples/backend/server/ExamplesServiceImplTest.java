@@ -68,6 +68,7 @@ import org.uberfire.backend.vfs.PathFactory;
 import org.uberfire.io.IOService;
 import org.uberfire.mocks.EventSourceMock;
 import org.uberfire.rpc.SessionInfo;
+import org.uberfire.spaces.Space;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -353,7 +354,7 @@ public class ExamplesServiceImplTest {
         doReturn(project).when(projectService).resolveProject(repository);
 
         final WorkspaceProjectContextChangeEvent event = service.setupExamples(exOU,
-                                                                      exModules);
+                                                                               exModules);
 
         assertNull(event.getOrganizationalUnit());
         assertEquals(project,
@@ -416,7 +417,7 @@ public class ExamplesServiceImplTest {
         doReturn(project).when(projectService).resolveProject(repository1);
 
         final WorkspaceProjectContextChangeEvent event = service.setupExamples(exOU,
-                                                                      exProjects);
+                                                                               exProjects);
 
         assertNull(event.getOrganizationalUnit());
         assertEquals(project,
@@ -513,7 +514,7 @@ public class ExamplesServiceImplTest {
 
     private GitRepository makeGitRepository() {
         final GitRepository repository = new GitRepository("guvnorng-playground",
-                                                           "space");
+                                                           new Space("space"));
 
         final HashMap<String, Branch> branches = new HashMap<>();
         branches.put("master",
