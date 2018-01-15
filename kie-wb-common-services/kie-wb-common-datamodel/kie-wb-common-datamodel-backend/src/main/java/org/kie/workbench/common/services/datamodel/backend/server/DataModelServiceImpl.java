@@ -28,7 +28,7 @@ import org.kie.soup.project.datamodel.commons.oracle.PackageDataModelOracleImpl;
 import org.kie.soup.project.datamodel.oracle.ModuleDataModelOracle;
 import org.kie.soup.project.datamodel.oracle.PackageDataModelOracle;
 import org.kie.workbench.common.services.datamodel.backend.server.cache.LRUDataModelOracleCache;
-import org.kie.workbench.common.services.datamodel.backend.server.cache.LRUModelDataModelOracleCache;
+import org.kie.workbench.common.services.datamodel.backend.server.cache.LRUModuleDataModelOracleCache;
 import org.kie.workbench.common.services.datamodel.backend.server.service.DataModelService;
 import org.kie.workbench.common.services.shared.project.KieModule;
 import org.kie.workbench.common.services.shared.project.KieModuleService;
@@ -40,13 +40,13 @@ public class DataModelServiceImpl
 
     private LRUDataModelOracleCache cachePackages;
 
-    private LRUModelDataModelOracleCache cacheModules;
+    private LRUModuleDataModelOracleCache cacheModules;
 
     private KieModuleService moduleService;
 
     @Inject
     public DataModelServiceImpl(final @Named("PackageDataModelOracleCache") LRUDataModelOracleCache cachePackages,
-                                final @Named("ModuleDataModelOracleCache") LRUModelDataModelOracleCache cacheModules,
+                                final @Named("ModuleDataModelOracleCache") LRUModuleDataModelOracleCache cacheModules,
                                 final KieModuleService moduleService) {
         this.cachePackages = cachePackages;
         this.cacheModules = cacheModules;

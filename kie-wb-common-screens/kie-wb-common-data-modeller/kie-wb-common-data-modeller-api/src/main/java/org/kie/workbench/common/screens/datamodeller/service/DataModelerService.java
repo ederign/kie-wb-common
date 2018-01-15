@@ -59,12 +59,12 @@ public interface DataModelerService {
     DataModel loadModel(final KieModule project);
 
     GenerationResult saveModel(final DataModel dataModel,
-                               final KieProject project,
+                               final KieModule module,
                                final boolean overwrite,
                                final String commitMessage);
 
     GenerationResult saveModel(final DataModel dataModel,
-                               final KieProject project);
+                               final KieModule module);
 
     GenerationResult saveSource(final String source,
                                 final Path path,
@@ -145,8 +145,8 @@ public interface DataModelerService {
                                               String literalValue);
 
     AnnotationParseResponse resolveParseRequest(AnnotationParseRequest parseRequest,
-                                                KieProject project);
+                                                KieModule module);
 
     AnnotationDefinitionResponse resolveDefinitionRequest(AnnotationDefinitionRequest definitionRequest,
-                                                          KieProject kieProject);
+                                                          KieModule kiemodule);
 }

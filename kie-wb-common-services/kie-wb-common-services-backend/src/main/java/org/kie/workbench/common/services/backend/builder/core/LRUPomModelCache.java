@@ -46,7 +46,7 @@ public class LRUPomModelCache
         this.moduleService = moduleService;
     }
 
-    public void invalidateProjectCache(@Observes final InvalidateDMOProjectCacheEvent event) {
+    public void invalidateProjectCache(@Observes final InvalidateDMOModuleCacheEvent event) {
         PortablePreconditions.checkNotNull("event",
                                            event);
         final Path resourcePath = event.getResourcePath();

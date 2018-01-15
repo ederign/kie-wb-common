@@ -34,11 +34,11 @@ public class LRUModuleDependenciesClassLoaderCache
 
     private BuildInfoService buildInfoService;
 
-    public LRUProjectDependenciesClassLoaderCache() {
+    public LRUModuleDependenciesClassLoaderCache() {
     }
 
     @Inject
-    public LRUProjectDependenciesClassLoaderCache(BuildInfoService buildInfoService) {
+    public LRUModuleDependenciesClassLoaderCache(BuildInfoService buildInfoService) {
         this.buildInfoService = buildInfoService;
     }
 
@@ -46,26 +46,14 @@ public class LRUModuleDependenciesClassLoaderCache
         this.buildInfoService = buildInfoService;
     }
 
-    public ClassLoader assertDependenciesClassLoader(final KieProject project) {
-        ClassLoader classLoader = getEntry(project);
+    public ClassLoader assertDependenciesClassLoader(final KieModule module) {
+        ClassLoader classLoader = getEntry(module);
         if (classLoader == null) {
-            classLoader = buildClassLoader(project);
-            setEntry(project,
+            classLoader = buildClassLoader(module);
+            setEntry(module,
                      classLoader);
         }
         return classLoader;
-    }
-
-    public void setDependenciesClassLoader(final KieProject project,
-                                           ClassLoader classLoader) {
-        setEntry(project,
-                 classLoader);
-    }
-
-    private ClassLoader buildClassLoader(final KieProject project) {
-        final KieModule module = buildInfoService.getBuildInfo(project).getKieModuleIgnoringErrors();
-        return buildClassLoader(project,
-                                KieModuleMetaData.Factory.newKieModuleMetaData(module));
     }
 
     /**
@@ -89,25 +77,11 @@ public class LRUModuleDependenciesClassLoaderCache
             //this case should never happen. But if ProjectClassLoader calculation for KieModuleMetadata changes at
             //the error will be notified for implementation review.
             throw new RuntimeException("It was not possible to calculate project dependencies class loader for project: "
-                                               + project.getKModuleXMLPath());
+                                               + module.getKModuleXMLPath());
         }
     }
 
-    protected void setBuildInfoService(final BuildInfoService buildInfoService) {
-        this.buildInfoService = buildInfoService;
-    }
-
-    public synchronized ClassLoader assertDependenciesClassLoader(final KieModule module) {
-        ClassLoader classLoader = getEntry(module);
-        if (classLoader == null) {
-            classLoader = buildClassLoader(module);
-            setEntry(module,
-                     classLoader);
-        }
-        return classLoader;
-    }
-
-    public synchronized void setDependenciesClassLoader(final KieModule module,
+    public void setDependenciesClassLoader(final KieModule module,
                                                         final ClassLoader classLoader) {
         setEntry(module,
                  classLoader);

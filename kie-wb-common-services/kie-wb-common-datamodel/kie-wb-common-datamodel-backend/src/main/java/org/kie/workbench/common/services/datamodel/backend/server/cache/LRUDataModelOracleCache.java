@@ -65,7 +65,7 @@ public class LRUDataModelOracleCache extends LRUCache<Package, PackageDataModelO
 
     private FileDiscoveryService fileDiscoveryService;
 
-    private LRUModelDataModelOracleCache cacheModules;
+    private LRUModuleDataModelOracleCache cacheModules;
 
     private KieModuleService moduleService;
 
@@ -82,7 +82,7 @@ public class LRUDataModelOracleCache extends LRUCache<Package, PackageDataModelO
     @Inject
     public LRUDataModelOracleCache(final @Named("ioStrategy") IOService ioService,
                                    final FileDiscoveryService fileDiscoveryService,
-                                   final @Named("ModuleDataModelOracleCache") LRUModelDataModelOracleCache cacheModules,
+                                   final @Named("ModuleDataModelOracleCache") LRUModuleDataModelOracleCache cachefModules,
                                    final KieModuleService moduleService,
                                    final BuildInfoService buildInfoService,
                                    final Instance<DataModelExtension> dataModelExtensionsProvider,
@@ -108,7 +108,7 @@ public class LRUDataModelOracleCache extends LRUCache<Package, PackageDataModelO
         }
     }
 
-    public void invalidateProjectPackagesCache(@Observes final InvalidateDMOProjectCacheEvent event) {
+    public void invalidateProjectPackagesCache(@Observes final InvalidateDMOModuleCacheEvent event) {
         PortablePreconditions.checkNotNull("event",
                                            event);
         final Path resourcePath = event.getResourcePath();
@@ -142,7 +142,7 @@ public class LRUDataModelOracleCache extends LRUCache<Package, PackageDataModelO
     }
 
     //Check the DataModelOracle for the Package has been created, otherwise create one!
-    public PackageDataModelOracle assertPackageDataModelOracle(final KieProject project,
+    public PackageDataModelOracle assertPackageDataModelOracle(final KieModule module,
                                                                final Package pkg) {
         PackageDataModelOracle oracle = getEntry(pkg);
         if (oracle == null) {

@@ -25,7 +25,7 @@ import java.util.function.Supplier;
 import java.util.logging.LogManager;
 
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.io.output.NullOutputStream;
+//import org.apache.commons.io.output.NullOutputStream;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.kie.workbench.common.project.cli.ExternalMigrationService;
@@ -51,7 +51,7 @@ public class MigrationTool {
                              * Work around log4j-api message printed from missing configuration.
                              */
                             PrintStream err = System.err;
-                            System.setErr(new PrintStream(new NullOutputStream()));
+//                            System.setErr(new PrintStream(new NullOutputStream()));
                             try {
                                 WeldContainer container = new Weld().initialize();
                                 return container;

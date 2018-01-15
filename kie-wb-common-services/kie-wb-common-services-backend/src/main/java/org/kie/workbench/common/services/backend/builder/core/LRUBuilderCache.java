@@ -97,7 +97,7 @@ public class LRUBuilderCache extends LRUCache<Module, Builder> {
         classFilters.forEach(filter -> classFilterBeans.destroy(filter));
     }
 
-    public void invalidateProjectCache(@Observes final InvalidateDMOProjectCacheEvent event) {
+    public void invalidateProjectCache(@Observes final InvalidateDMOModuleCacheEvent event) {
         PortablePreconditions.checkNotNull("event",
                                            event);
         final Module project = event.getModule();
@@ -118,12 +118,12 @@ public class LRUBuilderCache extends LRUCache<Module, Builder> {
         throw new NoBuilderFoundException();
     }
 
-    public Builder assertBuilder(final Project project) {
-        return makeBuilder(project);
+    public Builder assertBuilder(final Module module) {
+        return makeBuilder(module);
     }
 
-    public Builder getBuilder(final Project project) {
-        return getEntry(project);
+    public Builder getBuilder(final Module module) {
+        return getEntry(module);
     }
 
     private Builder makeBuilder(final Module module) {

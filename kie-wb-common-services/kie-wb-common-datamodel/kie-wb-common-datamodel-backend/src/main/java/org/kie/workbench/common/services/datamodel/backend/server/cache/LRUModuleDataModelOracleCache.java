@@ -34,26 +34,26 @@ import org.uberfire.backend.vfs.Path;
  */
 @ApplicationScoped
 @Named("ModuleDataModelOracleCache")
-public class LRUModelDataModelOracleCache
+public class LRUModuleDataModelOracleCache
         extends LRUCache<KieModule, ModuleDataModelOracle> {
 
     private ModuleDataModelOracleBuilderProvider builderProvider;
     private KieModuleService moduleService;
     private BuildInfoService buildInfoService;
 
-    public LRUModelDataModelOracleCache() {
+    public LRUModuleDataModelOracleCache() {
     }
 
     @Inject
-    public LRUModelDataModelOracleCache(final ModuleDataModelOracleBuilderProvider builderProvider,
-                                        final KieModuleService moduleService,
-                                        final BuildInfoService buildInfoService) {
+    public LRUModuleDataModelOracleCache(final ModuleDataModelOracleBuilderProvider builderProvider,
+                                         final KieModuleService moduleService,
+                                         final BuildInfoService buildInfoService) {
         this.builderProvider = builderProvider;
         this.moduleService = moduleService;
         this.buildInfoService = buildInfoService;
     }
 
-    public synchronized void invalidateModuleCache(@Observes final InvalidateDMOModuleCacheEvent event) {
+    public void invalidateModuleCache(@Observes final InvalidateDMOModuleCacheEvent event) {
         PortablePreconditions.checkNotNull("event",
                                            event);
         final Path resourcePath = event.getResourcePath();
@@ -66,7 +66,7 @@ public class LRUModelDataModelOracleCache
     }
 
     //Check the ModuleOracle for the Module has been created, otherwise create one!
-    public synchronized ModuleDataModelOracle assertModuleDataModelOracle(final KieModule module) {
+    public ModuleDataModelOracle assertModuleDataModelOracle(final KieModule module) {
         ModuleDataModelOracle moduleOracle = getEntry(module);
         if (moduleOracle == null) {
             moduleOracle = makeModuleOracle(module);

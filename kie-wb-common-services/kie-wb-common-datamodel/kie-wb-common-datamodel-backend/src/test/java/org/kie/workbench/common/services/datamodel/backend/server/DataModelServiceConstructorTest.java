@@ -91,7 +91,7 @@ import org.kie.workbench.common.services.backend.whitelist.PackageNameWhiteListL
 import org.kie.workbench.common.services.backend.whitelist.PackageNameWhiteListSaver;
 import org.kie.workbench.common.services.backend.whitelist.PackageNameWhiteListServiceImpl;
 import org.kie.workbench.common.services.datamodel.backend.server.cache.LRUDataModelOracleCache;
-import org.kie.workbench.common.services.datamodel.backend.server.cache.LRUModelDataModelOracleCache;
+import org.kie.workbench.common.services.datamodel.backend.server.cache.LRUModuleDataModelOracleCache;
 import org.kie.workbench.common.services.datamodel.backend.server.cache.ModuleDataModelOracleBuilderProvider;
 import org.kie.workbench.common.services.datamodel.backend.server.service.DataModelService;
 import org.kie.workbench.common.services.datamodel.spi.DataModelExtension;
@@ -310,9 +310,9 @@ public class DataModelServiceConstructorTest {
         ModuleDataModelOracleBuilderProvider builderProvider = new ModuleDataModelOracleBuilderProvider(packageNameWhiteListService,
                                                                                                         importsService);
 
-        LRUModelDataModelOracleCache cacheModules = new LRUModelDataModelOracleCache(builderProvider,
-                                                                                     moduleService,
-                                                                                     buildInfoService);
+        LRUModuleDataModelOracleCache cacheModules = new LRUModuleDataModelOracleCache(builderProvider,
+                                                                                       moduleService,
+                                                                                       buildInfoService);
 
         dependenciesClassLoaderCache.setBuildInfoService(buildInfoService);
         LRUDataModelOracleCache cachePackages = new LRUDataModelOracleCache(ioService,
