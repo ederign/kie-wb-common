@@ -82,7 +82,7 @@ public class LRUDataModelOracleCache extends LRUCache<Package, PackageDataModelO
     @Inject
     public LRUDataModelOracleCache(final @Named("ioStrategy") IOService ioService,
                                    final FileDiscoveryService fileDiscoveryService,
-                                   final @Named("ModuleDataModelOracleCache") LRUModuleDataModelOracleCache cachefModules,
+                                   final @Named("ModuleDataModelOracleCache") LRUModuleDataModelOracleCache cacheModules,
                                    final KieModuleService moduleService,
                                    final BuildInfoService buildInfoService,
                                    final Instance<DataModelExtension> dataModelExtensionsProvider,
