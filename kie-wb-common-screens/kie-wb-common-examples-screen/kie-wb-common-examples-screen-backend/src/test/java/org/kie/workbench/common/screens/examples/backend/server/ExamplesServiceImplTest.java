@@ -69,6 +69,7 @@ import org.uberfire.io.IOService;
 import org.uberfire.mocks.EventSourceMock;
 import org.uberfire.rpc.SessionInfo;
 import org.uberfire.spaces.Space;
+import org.uberfire.spaces.SpacesAPI;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -117,6 +118,9 @@ public class ExamplesServiceImplTest {
     @Mock
     private WorkspaceProjectService projectService;
 
+    @Mock
+    private SpacesAPI spaces;
+
     private ExamplesServiceImpl service;
 
     @Before
@@ -130,6 +134,7 @@ public class ExamplesServiceImplTest {
                                               ouService,
                                               projectService,
                                               metadataService,
+                                              spaces,
                                               newProjectEvent));
         when(ouService.getOrganizationalUnits()).thenReturn(new HashSet<OrganizationalUnit>() {{
             add(new OrganizationalUnitImpl("ou1Name",
