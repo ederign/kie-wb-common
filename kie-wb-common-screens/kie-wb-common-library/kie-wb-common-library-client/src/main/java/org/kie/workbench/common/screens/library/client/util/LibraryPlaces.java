@@ -213,7 +213,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
                         && place.getIdentifier().equals(LibraryPlaces.PROJECT_SCREEN)) {
                     setupLibraryBreadCrumbs();
                 } else if (place.getIdentifier().equals(LibraryPlaces.LIBRARY_SCREEN)) {
-                    setupLibraryBreadCrumbs();
+                    setupLibraryBreadCrumbsWithoutProject();
                 }
             }
         }
@@ -364,30 +364,33 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
     }
 
     public void setupLibraryBreadCrumbs() {
+        setupLibraryBreadCrumbs(projectContext.getActiveWorkspaceProject());
+    }
+
+    public void setupLibraryBreadCrumbsWithoutProject() {
+        setupLibraryBreadCrumbs(null);
+    }
+
+    public void setupLibraryBreadCrumbs(final WorkspaceProject project) {
         breadcrumbs.clearBreadcrumbs(LibraryPlaces.LIBRARY_PERSPECTIVE);
         breadcrumbs.addBreadCrumb(LibraryPlaces.LIBRARY_PERSPECTIVE,
                                   translationUtils.getOrganizationalUnitAliasInPlural(),
                                   () -> goToOrganizationalUnits());
+
         if (projectContext.getActiveOrganizationalUnit() != null) {
 
             breadcrumbs.addBreadCrumb(LibraryPlaces.LIBRARY_PERSPECTIVE,
                                       projectContext.getActiveOrganizationalUnit().getName(),
                                       () -> goToLibrary());
         }
-        if (projectContext.getActiveWorkspaceProject() != null) {
 
+        if (project != null) {
             breadcrumbs.addBreadCrumb(LibraryPlaces.LIBRARY_PERSPECTIVE,
                                       projectContext.getActiveWorkspaceProject().getName(),
                                       () -> goToProject());
         }
-        libraryToolbar.setUpBranches();
-    }
 
-    public void setupLibraryBreadCrumbsForNewProject() {
-        setupLibraryBreadCrumbs();
-        breadcrumbs.addBreadCrumb(LibraryPlaces.LIBRARY_PERSPECTIVE,
-                                  ts.getTranslation(LibraryConstants.TrySamples),
-                                  () -> goToTrySamples());
+        libraryToolbar.setUpBranches();
     }
 
     public void setupLibraryBreadCrumbsForImportProjects(final String repositoryUrl) {
@@ -401,6 +404,19 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
         breadcrumbs.addBreadCrumb(LibraryPlaces.LIBRARY_PERSPECTIVE,
                                   ts.getTranslation(LibraryConstants.ImportProjects),
                                   () -> goToImportProjects(repositoryUrl));
+    }
+
+    public void setupLibraryBreadCrumbsForTrySamples() {
+        breadcrumbs.clearBreadcrumbs(LibraryPlaces.LIBRARY_PERSPECTIVE);
+        breadcrumbs.addBreadCrumb(LibraryPlaces.LIBRARY_PERSPECTIVE,
+                                  translationUtils.getOrganizationalUnitAliasInPlural(),
+                                  () -> goToOrganizationalUnits());
+        breadcrumbs.addBreadCrumb(LibraryPlaces.LIBRARY_PERSPECTIVE,
+                                  projectContext.getActiveOrganizationalUnit().getName(),
+                                  () -> goToLibrary());
+        breadcrumbs.addBreadCrumb(LibraryPlaces.LIBRARY_PERSPECTIVE,
+                                  ts.getTranslation(LibraryConstants.TrySamples),
+                                  () -> goToTrySamples());
     }
 
     public void setupLibraryBreadCrumbsForProjectMetrics() {
@@ -499,7 +515,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
             placeManager.goTo(part,
                               libraryPerspective.getRootPanel());
 
-            setupLibraryBreadCrumbs();
+            setupLibraryBreadCrumbsWithoutProject();
 
             hideDocks();
         }).hasProjects(projectContext.getActiveOrganizationalUnit());
@@ -590,6 +606,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
         closeLibraryPlaces();
         placeManager.goTo(part,
                           libraryPerspective.getRootPanel());
+        setupLibraryBreadCrumbsForTrySamples();
     }
 
     public void goToImportProjects(final String repositoryUrl) {

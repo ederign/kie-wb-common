@@ -202,7 +202,6 @@ public class LibraryPlacesTest {
         doReturn(mock(Path.class)).when(vfsService).get(any());
 
         doNothing().when(libraryPlaces).setupLibraryBreadCrumbs();
-        doNothing().when(libraryPlaces).setupLibraryBreadCrumbsForNewProject();
         doNothing().when(libraryPlaces).setupLibraryBreadCrumbsForAsset(any(Path.class));
         final PathPlaceRequest pathPlaceRequest = mock(PathPlaceRequest.class);
         doReturn(mock(ObservablePath.class)).when(pathPlaceRequest).getPath();
@@ -311,7 +310,7 @@ public class LibraryPlacesTest {
         libraryPlaces.onSelectPlaceEvent(placeGainFocusEvent);
 
         verify(libraryPlaces).hideDocks();
-        verify(libraryPlaces).setupLibraryBreadCrumbs();
+        verify(libraryPlaces).setupLibraryBreadCrumbsWithoutProject();
     }
 
     @Test
@@ -484,7 +483,7 @@ public class LibraryPlacesTest {
         verify(libraryPlaces).closeLibraryPlaces();
         verify(placeManager).goTo(eq(part),
                                   any(PanelDefinition.class));
-        verify(libraryPlaces).setupLibraryBreadCrumbs();
+        verify(libraryPlaces).setupLibraryBreadCrumbsWithoutProject();
         verify(projectContextChangeEvent,
                times(2)).fire(any(WorkspaceProjectContextChangeEvent.class));
     }
@@ -504,7 +503,7 @@ public class LibraryPlacesTest {
         verify(libraryPlaces).closeLibraryPlaces();
         verify(placeManager).goTo(eq(part),
                                   any(PanelDefinition.class));
-        verify(libraryPlaces).setupLibraryBreadCrumbs();
+        verify(libraryPlaces).setupLibraryBreadCrumbsWithoutProject();
         verify(projectContextChangeEvent,
                times(1)).fire(any(WorkspaceProjectContextChangeEvent.class));
     }
@@ -528,7 +527,7 @@ public class LibraryPlacesTest {
         verify(libraryPlaces).closeLibraryPlaces();
         verify(placeManager).goTo(eq(part),
                                   any(PanelDefinition.class));
-        verify(libraryPlaces).setupLibraryBreadCrumbs();
+        verify(libraryPlaces).setupLibraryBreadCrumbsWithoutProject();
         verify(projectContextChangeEvent,
                never()).fire(any(WorkspaceProjectContextChangeEvent.class));
     }
