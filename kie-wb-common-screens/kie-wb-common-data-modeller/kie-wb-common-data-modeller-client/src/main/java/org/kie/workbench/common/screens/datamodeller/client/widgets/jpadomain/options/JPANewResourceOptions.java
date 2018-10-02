@@ -19,6 +19,7 @@ package org.kie.workbench.common.screens.datamodeller.client.widgets.jpadomain.o
 import java.util.HashMap;
 import java.util.Map;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import com.google.gwt.core.client.GWT;
@@ -28,6 +29,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import org.guvnor.structure.config.AddPomDependency;
 import org.gwtbootstrap3.client.ui.CheckBox;
 import org.kie.workbench.common.screens.datamodeller.client.handlers.DomainHandler;
 import org.kie.workbench.common.screens.datamodeller.client.handlers.jpadomain.JPADomainHandler;
@@ -58,6 +60,9 @@ public class JPANewResourceOptions
 
     @Inject
     private JPADomainHandler handler;
+
+    @Inject
+    private Event<AddPomDependency> addPomDependencyEvent;
 
     public JPANewResourceOptions() {
         initWidget( uiBinder.createAndBindUi( this ) );
@@ -116,12 +121,20 @@ public class JPANewResourceOptions
     }
 
     private void onPersistableChanged() {
+        if(isPersitable()){
+            addPomDependency();
+        }
         if ( isPersitable() && handler.isDataObjectAuditEnabled() ) {
             setAuditOptionsVisible( true );
         } else {
             setAudited( false );
             setAuditOptionsVisible( false );
         }
+    }
+
+    private void addPomDependency() {
+        //add dep info for pom dependency
+        addPomDependencyEvent.fire(new AddPomDependency());
     }
 
     private void setAuditOptionsVisible( boolean visible ) {
