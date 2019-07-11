@@ -327,6 +327,7 @@ public class ExamplesServiceImpl extends BaseProjectImportService implements Exa
     protected WorkspaceProjectContextChangeEvent importProjects(OrganizationalUnit targetOU,
                                                                 List<ImportProject> projects) {
 
+        //lock space
         WorkspaceProject firstExampleProject = null;
 
         for (final ImportProject importProject : projects) {
@@ -351,6 +352,7 @@ public class ExamplesServiceImpl extends BaseProjectImportService implements Exa
                              ioe);
             }
         }
+        //unlock space
 
         return new WorkspaceProjectContextChangeEvent(firstExampleProject,
                                                       firstExampleProject.getMainModule());
